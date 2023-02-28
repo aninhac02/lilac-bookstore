@@ -58,6 +58,20 @@ class LivroController {
         })
     }
 
+    static findBookByPublishingCompany = (req, res) => {
+        const editora = req.query.editora;
+
+        livros.find({'editora': editora}, {})
+              .populate('autor', 'nome')
+              .populate('editora', 'nome') 
+              .exec((err, livros) => {
+            if(err) {
+                res.status(400).send({message: `${err.message} - Livro não encontrado`})
+            }
+            res.status(200).send(livros);
+        })
+    }
+
 }
 
 export default LivroController
